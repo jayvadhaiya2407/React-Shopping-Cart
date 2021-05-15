@@ -60,15 +60,21 @@ function App() {
   }
 
   const [cartItem, setcartItem] = useState(getCartItem());
+  const [bill, setBill] = useState(0);
   useEffect(() => {
+    let total = 0;
     localStorage.setItem("cartItem", JSON.stringify(cartItem));
+    for (const item of cartItem) {
+      total += evalPrice(item);
+    }
+    setBill(total);
   }, [cartItem])
 
   return (
     <>
     <Header/>
     <Products addCart={addCart}/>
-    <Cart allCartItem={cartItem} evalPrice={evalPrice} onChange={onChange} removeItem={removeItem}/>
+    <Cart allCartItem={cartItem} evalPrice={evalPrice} onChange={onChange} removeItem={removeItem} bill={bill}/>
     <Footer/>
     </>
   );
